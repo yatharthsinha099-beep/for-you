@@ -1,0 +1,167 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Happy Birthday ❤️</title>
+  <style>
+    :root{
+      --bg1:#ffecd2;
+      --bg2:#fcb69f;
+      --accent:#ff4d6d;
+      --accent2:#8b5cf6;
+      --card-bg: rgba(255,255,255,0.85);
+      --glass: rgba(255,255,255,0.12);
+      --shadow: 0 10px 30px rgba(0,0,0,0.12);
+      --radius: 22px;
+      font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;
+    }
+    html,body{height:100%;margin:0}
+    body{
+      background: linear-gradient(135deg,var(--bg1),var(--bg2));
+      display:flex;align-items:center;justify-content:center;overflow:hidden;padding:20px;
+    }
+
+```
+.scene{
+  width:min(980px,96vw);
+  height:min(720px,92vh);
+  position:relative;
+  border-radius:28px;
+  box-shadow:var(--shadow);
+  overflow:hidden;
+  background: linear-gradient(180deg, rgba(255,255,255,0.12), rgba(255,255,255,0.04));
+  backdrop-filter: blur(6px);
+  border: 1px solid rgba(255,255,255,0.06);
+  display:grid;grid-template-columns:1fr 420px;
+}
+
+.stage{
+  position:relative;padding:36px;display:flex;flex-direction:column;gap:18px;align-items:flex-start;justify-content:center;
+}
+
+h1{font-size:clamp(28px,4.2vw,44px);margin:0;color:#fff;letter-spacing:0.4px}
+p.lead{margin:0;color:rgba(255,255,255,0.92);font-size:clamp(14px,2vw,18px)}
+
+.open-btn{
+  margin-top:10px;padding:12px 18px;border-radius:999px;background:linear-gradient(90deg,var(--accent),var(--accent2));color:white;border:none;font-weight:600;cursor:pointer;box-shadow:0 8px 20px rgba(139,92,246,0.18);
+}
+
+.card-panel{
+  padding:28px;display:flex;flex-direction:column;gap:14px;background:linear-gradient(180deg, rgba(255,255,255,0.04), rgba(255,255,255,0.02));
+  border-left: 1px solid rgba(255,255,255,0.03);
+}
+.card{
+  background:var(--card-bg);padding:18px;border-radius:var(--radius);box-shadow:var(--shadow);flex:1;display:flex;flex-direction:column;gap:12px;align-items:center;justify-content:center;position:relative;overflow:hidden
+}
+.photo{
+  width:140px;height:140px;border-radius:18px;background:linear-gradient(180deg,#fff,#eee);display:flex;align-items:center;justify-content:center;font-weight:700;color:#666;overflow:hidden;box-shadow:0 10px 30px rgba(0,0,0,0.08);
+}
+.message{max-width:100%;text-align:center}
+.message h2{margin:6px 0 0 0;color:#222}
+.message p{margin:6px 0 0 0;color:#444}
+
+.heart{position:absolute;width:20px;height:20px;transform:rotate(-45deg);left:50%;top:50%;}
+.heart:before,.heart:after{content:'';position:absolute;width:20px;height:20px;border-radius:50%;background:var(--accent)}
+.heart:before{top:-10px;left:0}
+.heart:after{left:10px;top:0}
+
+.balloons{position:absolute;right:-40px;bottom:-20px;width:300px;height:400px;pointer-events:none}
+.balloon{position:absolute;width:80px;height:110px;border-radius:50% 50% 50% 50%;transform:translateY(0);right:0}
+.balloon::after{content:'';position:absolute;left:50%;bottom:-10px;width:2px;height:40px;background:linear-gradient(180deg,#0002,#0000);transform:translateX(-50%)}
+
+canvas#confetti{position:absolute;inset:0;pointer-events:none}
+
+.overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(2,6,23,0.55),rgba(10,10,20,0.2));display:flex;align-items:center;justify-content:center;backdrop-filter: blur(4px);transition:opacity .6s ease}
+.overlay.hidden{opacity:0;visibility:hidden}
+
+@media (max-width:880px){
+  .scene{grid-template-columns:1fr; height: auto; padding-bottom:48px}
+  .card-panel{order:2}
+}
+```
+
+  </style>
+</head>
+<body>
+  <div class="scene" role="application" aria-label="Birthday card">
+
+```
+<canvas id="confetti" width="1200" height="800"></canvas>
+
+<div class="stage">
+  <h1>Happy Birthday, my love ❤️</h1>
+  <p class="lead">Hey!! This is for you.</p>
+  <button id="openCard" class="open-btn">Open your card</button>
+
+  <!-- floating hearts -->
+  <div class="heart" id="heart1" style="--i:0;left:22%;top:18%;width:18px;height:18px"></div>
+  <div class="heart" id="heart2" style="--i:1;left:12%;top:54%;width:26px;height:26px"></div>
+  <div class="heart" id="heart3" style="--i:2;left:38%;top:70%;width:14px;height:14px"></div>
+
+  <!-- balloons -->
+  <div class="balloons" aria-hidden="true">
+    <div class="balloon" style="right:6px;bottom:20px;background:linear-gradient(180deg,#ff758c,#ffb199);transform:translateY(0) rotate(-6deg)"></div>
+    <div class="balloon" style="right:70px;bottom:40px;background:linear-gradient(180deg,#8b5cf6,#c7b3ff);transform:translateY(0) rotate(6deg);width:66px;height:92px"></div>
+    <div class="balloon" style="right:140px;bottom:10px;background:linear-gradient(180deg,#ffd47a,#ff9f6b);width:72px;height:100px"></div>
+  </div>
+
+</div>
+
+<div class="card-panel">
+  <div class="card" id="card">
+    <div class="message">
+      <h2 id="titleText">For you!! </h2>
+      <p id="bodyText">"Happy birthday to the girl who stole my heart and makes life worth living"..</p>
+    </div>
+  </div>
+</div>
+
+<div class="overlay" id="overlay">
+  <div style="text-align:center;color:white;padding:28px">
+    <h2 style="font-size:28px;margin:0 0 8px 0">Surprise! 🎉</h2>
+    <p style="margin:0 0 16px 0;opacity:0.9">Click anywhere to reveal your message.</p>
+  </div>
+</div>
+```
+
+  </div>
+
+  <script>
+    // Confetti
+    const canvas = document.getElementById('confetti');
+    const ctx = canvas.getContext('2d');
+    let W = canvas.width = canvas.clientWidth || 1200;
+    let H = canvas.height = canvas.clientHeight || 800;
+    window.addEventListener('resize', ()=>{W=canvas.width=canvas.clientWidth;H=canvas.height=canvas.clientHeight;});
+    function rand(min,max){return Math.random()*(max-min)+min}
+    class Particle{constructor(){this.reset();}reset(){this.x=rand(0,W);this.y=rand(-H,0);this.w=rand(6,12);this.h=rand(8,18);this.color=['#ff5c8a','#ffd166','#8b5cf6','#4dd0e1','#ff9f6b'][Math.floor(rand(0,5))];this.vx=rand(-0.5,0.5);this.vy=rand(1.5,4);this.rot=rand(0,Math.PI*2);this.vr=rand(-0.1,0.1);}update(){this.x+=this.vx;this.y+=this.vy;this.rot+=this.vr;if(this.y>H+20)this.reset();}draw(ctx){ctx.save();ctx.translate(this.x,this.y);ctx.rotate(this.rot);ctx.fillStyle=this.color;ctx.fillRect(-this.w/2,-this.h/2,this.w,this.h);ctx.restore();}}
+    const particles=[];for(let i=0;i<120;i++)particles.push(new Particle());
+    let confettiOn=false;
+    function loop(){ctx.clearRect(0,0,W,H);if(confettiOn){particles.forEach(p=>{p.update();p.draw(ctx)});}requestAnimationFrame(loop);}
+    loop();
+
+    // Overlay reveal
+    const overlay=document.getElementById('overlay');
+    const openBtn=document.getElementById('openCard');
+    openBtn.addEventListener('click',()=>{overlay.classList.remove('hidden');overlay.style.opacity=1;overlay.style.visibility='visible';});
+    overlay.addEventListener('click',()=>{overlay.classList.add('hidden');confettiOn=true;});
+
+    // Floating hearts
+    document.querySelectorAll('.heart').forEach((h,i)=>{
+      const dur=3000+i*600;
+      h.animate([{transform:'translateY(0) scale(0.9)'},{transform:'translateY(-24px) scale(1.05)'},{transform:'translateY(0) scale(0.95)'}],{duration:dur,iterations:Infinity,easing:'ease-in-out',direction:'alternate'});
+    });
+
+    // Balloons animation
+    document.querySelectorAll('.balloon').forEach((b,idx)=>{
+      b.animate([{transform:'translateY(0) rotate('+(idx%2?6:-6)+'deg)'},{transform:'translateY(-120px) rotate('+(idx%2?-16:16)+'deg)'}],{duration:8000+idx*1200,iterations:Infinity,direction:'alternate',easing:'ease-in-out'});
+    });
+
+    // Keyboard reveal
+    window.addEventListener('keydown',(e)=>{if(e.key==='Enter'&&!overlay.classList.contains('hidden')){overlay.classList.add('hidden');confettiOn=true;}});
+  </script>
+
+</body>
+</html>
